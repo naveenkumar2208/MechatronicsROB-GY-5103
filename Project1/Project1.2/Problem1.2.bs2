@@ -1,0 +1,51 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+'Printing Coordinate axes
+reps    VAR     Nib         'Counting Variable
+x       VAR     Nib
+y       VAR     Nib
+i       VAR     Nib
+j       VAR     Nib
+
+'X-Axis Representation
+FOR reps = 0 TO 9
+  DEBUG DEC reps
+NEXT
+DEBUG "x"                      'To add X at the end
+
+'Y-Axis Representation
+FOR reps = 1 TO 5
+  DEBUG CR, DEC reps
+NEXT
+DEBUG CR, "y"                   'To add Y at the end
+
+'DEBUG CLS
+
+DEBUG CR, "This Code uses Cartesian Coordinate System; (x,y)"
+' Ask the user to input x axis coordinate
+DEBUG CR, "Enter x: "
+DEBUGIN DEC x
+
+' Ask the user to input y axis coordinate
+DEBUG "Enter y: "
+DEBUGIN DEC y
+
+DEBUG CLS
+
+FOR reps = 0 TO 9
+  DEBUG DEC reps
+NEXT
+DEBUG "x", CR                      'To add X at the end
+FOR i = 1 TO 5
+  DEBUG DEC i
+  FOR j = 1 TO 9
+    IF x = j AND y = i THEN
+    DEBUG "*"
+    ENDIF
+    DEBUG " "
+  NEXT
+  DEBUG CR
+NEXT
+DEBUG "y"
+END

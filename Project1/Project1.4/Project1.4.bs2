@@ -1,0 +1,49 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+' Defining input pins for button 1 and button 2 respectively
+INPUT 0
+INPUT 15
+
+' Defining variables to store the number of students in the premises
+' and current state of each button
+student_count VAR Word
+button_state_1 VAR Bit
+button_state_2 VAR Bit
+
+student_count = 0   ' Total number of students in the building
+button_state_1 = 0  ' Initial state of button 1
+button_state_2 = 0  ' Initial state of button 2
+
+Main:
+
+  ' Increase the student count on entry - mimiced by a button press
+  IF IN0 = 0 AND button_state_1 = 0 THEN
+    student_count = student_count + 1
+    button_state_1 = 1
+    DEBUG "Number of students in the school = ", DEC student_count, CR
+  ENDIF
+
+  ' Reset state of button 1 to zero
+  IF IN0 = 1 THEN
+    button_state_1 = 0
+  ENDIF
+
+  ' Check if student count is zero, since it can't be negative
+  IF (student_count > 0) THEN
+
+    ' Decrease the student count on exit - mimiced by a button press
+    IF IN15 = 0 AND button_state_2 = 0 THEN
+      student_count = student_count - 1
+      button_state_2 = 1
+      DEBUG "Number of students in the school = ", DEC student_count, CR
+    ENDIF
+
+  ENDIF
+
+  ' Reset state of button 2 to zero
+  IF IN15 = 1 THEN
+    button_state_2 = 0
+  ENDIF
+
+GOTO Main

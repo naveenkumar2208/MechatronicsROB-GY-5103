@@ -1,0 +1,32 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+
+OUTPUT 3       'Green LED   East-West
+OUTPUT 4       'Yellow LED  East-West
+OUTPUT 5       'Red LED     East-West
+OUTPUT 13      'Green LED   North-South
+OUTPUT 14      'Yellow LED  North-South
+OUTPUT 15      'Red LED     North-South
+
+DO
+  OUT15 = 1     'Red(North-South) LED ON
+  OUT3 = 1      'Green(East-West) LED ON
+  OUT5 = 0      'Red(East-West) LED OFF
+  OUT14 = 0     'Yellow(North-South) LED OFF
+  SLEEP 30
+  OUT15 = 1     'Red(North-South) LED ON
+  OUT4 =1       'Yellow(East-West) LED ON
+  OUT5 = 0      'Red(East-West) LED OFF
+  OUT3 = 0      'Green(East-West) LED OFF
+  SLEEP 10
+  OUT5 = 1      'Red(East-West) LED ON
+  OUT13 = 1     'Green(North-East) LED ON
+  OUT15 = 0     'Red(North-South) LED OFF
+  OUT4 = 0      'Yellow(East-West) LED OFF
+  SLEEP 30
+  OUT5 = 1      'Red(East-West) LED ON
+  OUT14 = 1     'Yellow(North-South) LED ON
+  OUT15 = 0     'Red(North-South) LED OFF
+  OUT13 = 0     'Green(North-East) LED OFF
+  SLEEP 10
+LOOP

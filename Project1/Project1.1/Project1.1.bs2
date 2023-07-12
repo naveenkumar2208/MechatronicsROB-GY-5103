@@ -1,0 +1,33 @@
+'{$STAMP BS2}
+'{$PBASIC 2.5}
+
+'Initializing variables to store inputs & results
+Num1       VAR     Byte
+Num2       VAR     Byte
+Result  VAR     Byte
+
+DO
+'Init:
+    ' Ask the user to input number 1
+    DEBUG CR, "Enter Num1: "
+    DEBUGIN SDEC Num1
+
+    ' Ask the user to input number 2
+    DEBUG "Enter Num2: "
+    DEBUGIN SDEC Num2
+'Main:
+    ' Store the difference of x and y in Result
+    Result = Num1 - Num2
+
+    ' Check for sign of the result if it's > 127, and do a bitwise negation.
+    IF (Result > 127) THEN
+      Result = ~Result+1
+      DEBUG "Result: "
+      DEBUG SDEC -Result
+
+    ' Print result if it's < 127
+    ELSE
+      DEBUG SDEC ? Result
+    ENDIF
+
+LOOP
