@@ -1,0 +1,28 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+INPUT 0
+INPUT 1
+
+OUTPUT 4
+OUTPUT 5
+
+DO
+
+  IF IN0 = 0 AND IN1 = 0 THEN
+    OUT4 = 1
+    OUT5 = 1
+  ENDIF
+  IF IN0 = 0 AND IN1 = 1 THEN
+    OUT4 = 1
+    OUT5 = 0
+  ENDIF
+  IF IN0 = 1 AND IN1 = 0 THEN
+    OUT4 = 0
+    OUT5 = 1
+  ENDIF
+  IF IN0 = 1 AND IN1 = 1 THEN
+    OUT4 = 0
+    OUT5 = 0
+  ENDIF
+
+LOOP

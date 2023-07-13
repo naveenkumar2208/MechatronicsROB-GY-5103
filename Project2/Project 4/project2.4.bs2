@@ -1,0 +1,69 @@
+' -----[ Title ]-----------------------------------------------------------
+' Basic Analog and Digital - PL4_1R0.bs2
+' Digital Voltmeter (DVM). D/A Converter Added
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+' -----[ Declarations ]----------------------------------------------------
+adcBits     VAR Byte
+v           VAR Byte
+r           VAR Byte
+v2          VAR Byte
+v3          VAR Byte
+n           VAR Nib
+
+' -----[ Initialization ]--------------------------------------------------
+CS          PIN 0
+CLK         PIN 1
+DataOutput  PIN 2
+'Start display ' 
+DEBUG CLS, "DAC Nibble Values", CR
+DEBUG "Decimal Binary DVM", CR
+
+' -----[ Main Routine ]----------------------------------------------------
+FOR n = 0 TO 15
+    GOSUB DAC
+    GOSUB ADC_Data
+    GOSUB Calc_Volts
+    GOSUB Display
+NEXT
+STOP
+
+' -----[ Subroutines ]-----------------------------------------------------
+DAC:
+    OUTPUT 7
+    OUTPUT 6
+    OUTPUT 5
+    OUTPUT 4
+    OUT7 = n.BIT3
+    OUT6 = n.BIT2
+    OUT5 = n.BIT1
+    OUT4 = n.BIT0
+RETURN
+
+ADC_Data:
+    LOW CLK
+    LOW CS
+    PULSOUT CLK, 210
+    SHIFTIN DataOutput,CLK,MSBPOST,[adcBits\8]
+    HIGH CS
+RETURN
+
+Calc_Volts:
+    v = 5 * adcBits / 255
+    r = 5 * adcBits // 255
+    v2 = 100 * R / 255
+    v3 = 100 * R // 255
+    v3 = 10 * v3 / 255
+    IF (v3 >= 5) THEN v2 = v2 + 1
+    IF (v2 >= 100) THEN
+    v = v + 1
+    v2 = 0
+    ENDIF
+RETURN
+
+
+Display:
+DEBUG DEC2 n, "       ", BIN4 n, "  "
+DEBUG DEC1 v, ".", DEC2 v2, " Volts", CR
+RETURN
+RETURN

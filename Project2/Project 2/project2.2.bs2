@@ -1,0 +1,119 @@
+' {$STAMP BS2}
+' {$PBASIC 2.5}
+INPUT 1
+INPUT 2
+
+OUTPUT 5        'red
+OUTPUT 11       'yellow
+OUTPUT 12       'green
+
+button_state_1 VAR Bit
+button_state_2 VAR Bit
+
+
+num1 VAR Word
+num2 VAR Word
+i VAR Byte
+num2 = 0
+
+button_state_1 = 0  ' Initial state of button 1
+button_state_2 = 0  ' Initial state of button 2
+
+DEBUG "enter the number to be guessed"
+DEBUGIN DEC num1
+
+FOR i = 1 TO 3
+
+DEBUG "Enter Number using buttons Button 1 for tens digit and confirm from button 2 and Button 2 for unit digit and confirm from button1"
+GOTO func1
+  func1:
+    IF IN1 = 1 THEN
+      button_state_1 = 0
+    ENDIF
+
+    IF IN2 = 0 AND button_state_2 = 0 THEN
+      button_state_2 = 1
+      GOTO func2
+
+    ELSEIF IN1 = 0 AND button_state_1 = 0 THEN
+      button_state_1 = 1
+      IF num2/10 > 9 THEN
+        num2 = num2//10
+        DEBUG DEC num2
+      ELSE
+        num2 = num2 + 10
+        DEBUG DEC num2
+      ENDIF
+      IF IN1 = 1 THEN
+        button_state_1 = 0
+      ENDIF
+    ENDIF
+  GOTO func1
+
+
+  func2:
+    IF IN2 = 1 THEN
+      button_state_2 = 0
+    ENDIF
+    IF IN1 = 0 AND button_state_1 = 0 THEN
+      button_state_1 = 1
+      GOTO func3
+    ENDIF
+    IF IN2 = 0 AND button_state_2 = 0 THEN
+      button_state_2 = 1
+      IF num2//10 = 9 THEN
+        num2 = num2 - 9
+        DEBUG DEC num2
+      ELSE
+        num2 = num2 + 1
+        DEBUG DEC num2
+      ENDIF
+    ENDIF
+    IF IN2 = 1 THEN
+      button_state_2 = 0
+    ENDIF
+
+  func3:
+    IF IN1 = 1 THEN
+      button_state_1 = 0
+    ENDIF
+    IF num2>num1 THEN
+      IF i = 3 THEN
+        OUT5 = 1
+        SLEEP 5
+        GOTO func5
+      ENDIF
+      OUT5 = 1
+      DEBUG CR, "TOO HOT"
+      SLEEP 5
+    ELSEIF num2<num1 THEN
+      IF i = 3 THEN
+        OUT11 = 1
+        SLEEP 5
+        GOTO func5
+      ENDIF
+      OUT11 = 1
+      DEBUG CR, "TOO Cold"
+      SLEEP 5
+    ELSEIF num2 = num1 THEN
+      DEBUG CR, "You guessed it right"
+      OUT12 = 1
+      SLEEP 5
+      GOTO func4
+    ENDIF
+    NEXT
+
+  func4:
+    DEBUG "You won the game, press reset to play again"
+    OUT5 = 1
+    OUT11 = 1
+    OUT12 = 1
+  func5:
+    DEBUG CR, "sorry, game is over, press reset to play again"
+    DO
+      OUT5 = 1
+      OUT11 = 1
+      OUT12 = 1
+    LOOP
+
+
